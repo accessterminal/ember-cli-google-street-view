@@ -43,7 +43,7 @@
     "google-street-view",
     "maps",
     "geolocation",
-    "street-view",
+    "street-view"
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"
