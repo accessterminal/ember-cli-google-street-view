@@ -1,25 +1,18 @@
 # Ember-cli-google-street-view
 
-This README outlines the details of collaborating on this Ember addon.
-
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+```
+ember install:addon ember-cli-google-street-view
+```
 
-## Running
+## Usage
 
-* `ember server`
-* Visit your app at http://localhost:4200.
-
-## Running Tests
-
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+View Component
+``` 
+{{street-view lat=lat lng=lng}}
+```
+Add reference to the map control in the index.html
+```
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=[API-KEY]"></script>
+```
