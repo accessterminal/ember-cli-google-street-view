@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-google-street-view",
-  "version": "0.0.2",
+  "version": "0.1.1",
   "description": "A Google Street View Component",
   "directories": {
     "doc": "doc",
