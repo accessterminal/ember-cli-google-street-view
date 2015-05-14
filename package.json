@@ -12,9 +12,9 @@
     "test": "ember test"
   },
   "repository": {
-     "type": "git",
-     "url": "git@github.com:cometaworks/ember-cli-google-street-view.git"
-   },
+    "type": "git",
+    "url": "git@github.com:cometaworks/ember-cli-google-street-view.git"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -22,9 +22,9 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
-    "ember-cli": "0.2.0-beta.1",
-    "ember-cli-babel": "^4.0.0",
+    "ember-cli": "^0.2.4",
     "ember-cli-app-version": "0.3.1",
+    "ember-cli-babel": "^4.0.0",
     "ember-cli-content-security-policy": "0.3.0",
     "ember-cli-dependency-checker": "0.0.7",
     "ember-cli-htmlbars": "0.7.4",
