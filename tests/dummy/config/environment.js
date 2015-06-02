@@ -3,14 +3,14 @@
 module.exports = function(environment) {
   var ENV = {
     contentSecurityPolicy: {
-      'default-src': "'none' 'unsafe-inline' http://fonts.googleapis.com http://localhost:4200",
+      'default-src': " * 'none' 'unsafe-inline' http://fonts.googleapis.com http://localhost:4200",
       // Allow scripts
-      'script-src': "'self' 'unsafe-eval' http://*.googleapis.com http://maps.gstatic.com http://dev.virtualearth.net/REST/V1/Imagery/Copyright/en-us/Road/1/-86.9322…so=r2&key=",
-      'font-src': "'self' http://fonts.gstatic.com", // Allow fonts
-      'connect-src': "'self' http://maps.gstatic.com", // Allow data (ajax/websocket)
-      'img-src': "'self' http://*.googleapis.com http://maps.gstatic.com http://csi.gstatic.com/csi?v=2&s=mapsapi3&action=apiboot&rt=jl.73,mc.477,mb.704,ep.970,vt.1027,prt.1027,plt.623,mt.1028&size=620x0&maptype=m&vr=1  ",
+      'script-src': " * 'self' 'unsafe-eval' http://*.googleapis.com http://maps.gstatic.com http://dev.virtualearth.net/REST/V1/Imagery/Copyright/en-us/Road/1/-86.9322…so=r2&key=",
+      'font-src': " * 'self' http://fonts.gstatic.com", // Allow fonts
+      'connect-src': " * 'self' http://maps.gstatic.com", // Allow data (ajax/websocket)
+      'img-src': " * 'self' http://*.googleapis.com http://maps.gstatic.com http://csi.gstatic.com/csi?v=2&s=mapsapi3&action=apiboot&rt=jl.73,mc.477,mb.704,ep.970,vt.1027,prt.1027,plt.623,mt.1028&size=620x0&maptype=m&vr=1  ",
       // Allow inline styles and loaded CSS
-      'style-src': "'self' 'unsafe-inline' http://fonts.googleapis.com http://maps.gstatic.com "
+      'style-src': " * 'self' 'unsafe-inline' http://fonts.googleapis.com http://maps.gstatic.com "
     },
     modulePrefix: 'dummy',
     environment: environment,
