@@ -1,3 +1,4 @@
+/* global google */
 import Ember from 'ember';
 
 export default Ember.Component.extend({
@@ -7,7 +8,11 @@ export default Ember.Component.extend({
 	height: "400px",
 	width: "600px",
 
-	didInsertElement: function(){
+	didInsertElement() {
+		this.createStreetView();
+	},
+
+	createStreetView: function(){
 		let lat = this.get('lat');
 		let lng = this.get('lng');
 		let width = this.get('width');
@@ -26,7 +31,7 @@ export default Ember.Component.extend({
 		this.set('map', streetView);
 		//bootstrap tabs fix for grey display
 		$(document).on('shown.bs.tab', function () { 
-      google.maps.event.trigger(streetView, 'resize'); 
-    });
+      		google.maps.event.trigger(streetView, 'resize'); 
+    	});
 	}
 });

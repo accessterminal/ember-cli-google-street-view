@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-ember install:addon ember-cli-google-street-view
+ember install ember-cli-google-street-view
 ```
 
 ## Usage
