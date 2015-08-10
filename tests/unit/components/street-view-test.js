@@ -27,10 +27,10 @@ test('that lat and lng are assigned properly', function ( assert ) {
   let component = this.subject();
   component.set('lat', 15.45);
   component.set('lng', 17.43);
-  let $component = this.append();
+  this.render();
 
   Ember.run( function() {
-    let map = component.map;
+    component.createStreetView();
     assert.equal(component.lat, 15.45);
     assert.equal(component.lng, 17.43);
   } );
@@ -54,7 +54,7 @@ test('that options are assigned properly to the map', function( assert ) {
   this.$().css({width: width, height: height});
   let streetView = new google.maps.StreetViewPanorama(this.$().get(0), options);
   component.set('map', streetView);
-  let $component = this.append();
+  this.render();
 
   Ember.run(function() {
     let map = component.map;
