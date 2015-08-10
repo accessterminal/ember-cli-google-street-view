@@ -5,6 +5,14 @@ import {
   test
 } from 'ember-qunit';
 
+function latRandomizer(){
+  return (Math.random() * 181) - 90;
+}
+
+function lngRandomizer() {
+  return (Math.random() * 281) -180;
+}
+
 moduleForComponent('street-view', {
   // specify the other units that are required for this test
   // needs: ['component:foo', 'helper:bar']
@@ -23,56 +31,92 @@ test('it renders', function(assert) {
 });
 
 test('that lat and lng are assigned properly', function ( assert ) {
+  let lat = latRandomizer();
+  let lng = lngRandomizer();
 
   let component = this.subject();
-  component.set('lat', 15.45);
-  component.set('lng', 17.43);
-  let $component = this.append();
+  component.set('lat', lat);
+  component.set('lng', lng);
+  this.render();
 
   Ember.run( function() {
-    let map = component.map;
-    assert.equal(component.lat, 15.45);
-    assert.equal(component.lng, 17.43);
+    component.createStreetView();
+    assert.equal(component.lat.toFixed(3), component.map.position.G.toFixed(3));
+    assert.equal(component.lng.toFixed(3), component.map.position.K.toFixed(3));
   } );
 
 });
 
 test('that options are assigned properly to the map', function( assert ) {
   let component = this.subject();
-  let lat = 12.34;
-  let lng = 43.21;
-  let height = "600px";
-  let width = "400px";
-  let options = {
-    position: new google.maps.LatLng(lat, lng),
-    pov: {
-      heading: 165,
-      pitch: 4
-    },
-    zoom: 6
-  };
-  this.$().css({width: width, height: height});
-  let streetView = new google.maps.StreetViewPanorama(this.$().get(0), options);
-  component.set('map', streetView);
-  let $component = this.append();
+  let height = Math.floor(Math.random() * 1000) + "px";
+  let width = Math.floor(Math.random() * 1000) + "px";
+
+  component.set('height', height);
+  component.set('width', width);
+  component.set('lat', latRandomizer());
+  component.set('lng', lngRandomizer());
+  component.set('pov', {
+    heading: Math.floor(Math.random() * 200),
+    pitch: Math.floor(Math.random() * 10)
+  });
+  component.set('zoom', Math.floor(Math.random() * 10));
+
+  component.set('panControl', Boolean(Math.floor(Math.random() * 2)));
+  if( component.panControl === true ) {
+    component.set('panControlOptions', {
+      position:google.maps.ControlPosition.RIGHT_TOP
+    });
+  }
+
+  component.set('zoomControl', Boolean(Math.floor(Math.random() * 2)));
+  if( component.zoomControl === true ) {
+    component.set('zoomControlOptions', {
+      style: google.maps.ZoomControlStyle.SMALL
+    });
+
+  }
+
+  component.set('addressControl', Boolean(Math.floor(Math.random() * 2 )));
+  if( component.addressControl === true) {
+    component.set('addressControlOptions', {
+      position: google.maps.ControlPosition.BOTTOM_CENTER
+    });
+  }
+
+  component.set('linksControl', Boolean(Math.floor(Math.random() * 2 )));
+
+
+  $().css({width: width, height: height});
+  this.render();
 
   Ember.run(function() {
     let map = component.map;
 
     //position
-    assert.equal(map.position.A, options.position.A);
-    assert.equal(map.position.A, 12.34);
-    assert.equal(map.position.F, options.position.F);
-    assert.equal(map.position.F.toFixed(2), 43.21);
+    assert.equal(map.position.G.toFixed(3), component.lat.toFixed(3));
+    assert.equal(map.position.K.toFixed(3), component.lng.toFixed(3));
 
     //pov
-    assert.equal(map.pov.heading, options.pov.heading);
-    assert.equal(map.pov.heading, 165);
-    assert.equal(map.pov.pitch, options.pov.pitch);
-    assert.equal(map.pov.pitch, 4);
+    assert.equal(map.pov.heading, component.pov.heading);
+    assert.equal(map.pov.pitch, component.pov.pitch);
 
     //zoom
-    assert.equal(map.zoom, options.zoom);
-    assert.equal(map.zoom, 6);
+    assert.equal(map.zoom, component.zoom);
+
+    // panControl
+    assert.equal(map.panControl, component.panControl);
+    assert.equal(map.panControlOptions, component.panControlOptions);
+
+    // zoomControl
+    assert.equal(map.zoomControl, component.zoomControl);
+    assert.equal(map.zoomControlOptions, component.zoomControlOptions);
+
+    // addressControl
+    assert.equal(map.addressControl, component.addressControl);
+    assert.equal(map.addressControlOptions, component.addressControlOptions);
+
+    // linksControl
+    assert.equal(map.linksControl, component.linksControl);
   });
 });
