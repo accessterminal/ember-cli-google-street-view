@@ -50,7 +50,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.baseUrl = '/ember-cli-google-street-view'
   }
 
   return ENV;
