@@ -16,7 +16,7 @@ export default Ember.Component.extend({
   zoomControl: null,
   zoomControlOptions: null,
   addressControl: null,
-  addressControlOptions: null, 
+  addressControlOptions: null,
   linksControl: null,
 
   // events
@@ -29,7 +29,7 @@ export default Ember.Component.extend({
     this.createStreetView();
   },
 
-  createStreetView: function(){
+  createStreetView() {
 
     let width = this.width;
     let height = this.height;
@@ -63,12 +63,12 @@ export default Ember.Component.extend({
 
     for(let i=0; i < optionsProperties.length; i++) {
       if( optionsProperties[i] !== null ) {
-        options[optionsKeys[i]] = optionsProperties[i]; 
+        options[optionsKeys[i]] = optionsProperties[i];
       }
     }
 
     this.$().css({width: width, height: height});
-    let streetView = new google.maps.StreetViewPanorama(this.$().get(0), options);
+    let streetView = new google.maps.StreetViewPanorama(this.element, options);
 
     if( this.panoChanged ) {
       google.maps.event.addListener(streetView, 'pano_changed', () => {
@@ -95,10 +95,10 @@ export default Ember.Component.extend({
     }
 
     this.set('map', streetView);
-    
+
     //bootstrap tabs fix for grey display
-    // $(document).on('shown.bs.tab', function () { 
-    //       google.maps.event.trigger(streetView, 'resize'); 
+    // $(document).on('shown.bs.tab', function () {
+    //       google.maps.event.trigger(streetView, 'resize');
     //   });
   }
 });
