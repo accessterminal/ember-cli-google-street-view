@@ -2,11 +2,11 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  map: null,
+  classNames: ['street-view-container'],
+
+  panorama: null,
   lat: null,
   lng: null,
-  height: "400px",
-  width: "600px",
   zoom: 0,
   pov: null,
 
@@ -20,85 +20,93 @@ export default Ember.Component.extend({
   linksControl: null,
 
   // events
-  panoChanged: null,
-  linksChanged: null,
-  positionChanged: null,
-  povChanged: null,
+  panoDidChange: Ember.K,
+  _panoChanged() {
+    this.panoDidChange();
+    let panorama = this.get('panorama');
+    this.sendAction('panoChanged', panorama);
+  },
+
+  linksDidChange: Ember.K,
+  _linksChanged() {
+    this.linksDidChange();
+    let panorama = this.get('panorama');
+    this.sendAction('linksChanged', panorama);
+  },
+
+  povDidChange: Ember.K,
+  _povChanged() {
+    this.povDidChange();
+    let panorama = this.get('panorama');
+    this.sendAction('povChanged', panorama);
+  },
+
+  positionDidChange: Ember.K,
+  _positionChanged() {
+    this.positionDidChange();
+
+    let panorama = this.get('panorama');
+    let position = panorama.getPosition();
+
+    this.sendAction('positionChanged', {
+      lat: position.lat(),
+      lng: position.lng()
+    }, panorama);
+  },
+
+  updatePanoramaPosition: Ember.observer('lat', 'lng', function() {
+    let lat = this.get('lat');
+    let lng = this.get('lng');
+    let panorama = this.get('panorama');
+
+    if (panorama) { panorama.setPosition({lat, lng}); }
+  }),
 
   didInsertElement() {
     this.createStreetView();
   },
 
-  createStreetView() {
-
-    let width = this.width;
-    let height = this.height;
-    let position = new google.maps.LatLng(this.lat, this.lng);
+  createOptionsObject() {
     let optionsKeys = [
-      "pov",
-      "zoom",
-      "panControl",
-      "panControlOptions",
-      "zoomControl",
-      "zoomControlOptions",
-      "addressControl",
-      "addressControlOptions",
-      "linksControl"
+      'pov',
+      'zoom',
+      'panControl',
+      'panControlOptions',
+      'zoomControl',
+      'zoomControlOptions',
+      'addressControl',
+      'addressControlOptions',
+      'linksControl'
     ];
-    let optionsProperties = [
-      this.pov,
-      this.zoom,
-      this.panControl,
-      this.panControlOptions,
-      this.zoomControl,
-      this.zoomControlOptions,
-      this.addressControl,
-      this.addressControlOptions,
-      this.linksControl
-    ];
+
+
+    let lat = this.get('lat');
+    let lng = this.get('lng');
+    let position = {lat, lng};
 
     let options = {
-      position: position
+      position
     };
 
-    for(let i=0; i < optionsProperties.length; i++) {
-      if( optionsProperties[i] !== null ) {
-        options[optionsKeys[i]] = optionsProperties[i];
+    optionsKeys.forEach(function(key) {
+      let prop = Ember.get(this, key);
+      if (prop !== null) {
+        options[key] = prop;
       }
-    }
+    }, this);
 
-    this.$().css({width: width, height: height});
-    let streetView = new google.maps.StreetViewPanorama(this.element, options);
+    return options;
+  },
 
-    if( this.panoChanged ) {
-      google.maps.event.addListener(streetView, 'pano_changed', () => {
-        this.panoChanged();
-      });
-    }
+  createStreetView() {
+    let options = this.createOptionsObject();
 
-    if( this.linksChanged ) {
-      google.maps.event.addListener(streetView, 'links_changed', () => {
-        this.linksChanged();
-      });
-    }
+    let panorama = new google.maps.StreetViewPanorama(this.element, options);
+    panorama.addListener('pano_changed', Ember.run.bind(this, '_panoChanged'));
+    panorama.addListener('links_changed', Ember.run.bind(this, '_linksChanged'));
+    panorama.addListener('position_changed', Ember.run.bind(this, '_positionChanged'));
+    panorama.addListener('pov_changed', Ember.run.bind(this, '_povChanged'));
 
-    if( this.positionChanged ) {
-      google.maps.event.addListener(streetView, 'position_changed', () => {
-        this.positionChanged();
-      });
-    }
-
-    if( this.povChanged ) {
-      google.maps.event.addListener(streetView, 'pov_changed', () => {
-        this.povChanged();
-      });
-    }
-
-    this.set('map', streetView);
-
-    //bootstrap tabs fix for grey display
-    // $(document).on('shown.bs.tab', function () {
-    //       google.maps.event.trigger(streetView, 'resize');
-    //   });
+    this.set('panorama', panorama);
   }
 });

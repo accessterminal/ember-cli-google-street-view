@@ -5,7 +5,8 @@ A simple google street view component for ember-cli aplications.
 
 ## Installation
 
-```
+Run:
+```bash
 ember install ember-cli-google-street-view
 ```
 
@@ -35,49 +36,39 @@ var ENV = {
 
 ## Usage
 
-View Component
+Use the `street-view` component in your templates:
 
-Example:
-`{{street-view lat=lat lng=lng}}`
+```hbs
+{{street-view lat=lat lng=lng}}
+```
 
-**Supports:**
+Note that you may need to assign a class and style the container element according to your needs. By default the component adds the class `street-view-container`.
 
-_Properties_
+## Actions
 
-`lat`
+The component will send the corresponding actions to the street view control events:
 
-`lng`
+- `positionChanged` - sent with a `{lat, lng}` object param when the street view possition changed
+- `povChanged` - sent whenever the Street View's StreetViewPov changes. Note that this event may fire while the position, and pano ID, remain stable (currently receives `panorama` object as a parameter)
+- `linksChanged` - sent whenever the Street View's links change (currently receives `panorama` object as a parameter)
+- `panoChanged` - sent whenever the individual pano ID changes (currently receives `panorama` object as a parameter)
 
-`height` - cannot be in `%`
+For more information, please refer to [Street View Events](https://developers.google.com/maps/documentation/javascript/streetview?hl=en#StreetViewEvents) documentation.
 
-`width`
+## Supported properties
 
-`zoom`
+The component supports the following properties:
 
-`pov`
+- `lat`
+- `lng`
+- `zoom`
+- `pov`
+- `panControl`
+- `panControlOptions`
+- `zoomControl`
+- `zoomControlOptions`
+- `addressControl`
+- `addressControlOptions`
+- `linksControl`
 
-_Controls_
-
-`panControl`
-
-`panControlOptions`
-
-`zoomControl`
-
-`zoomControlOptions`
-
-`addressControl`
-
-`addressControlOptions`
-
-`linksControl`
-
-_Events_
-
-`panoChanged`
-
-`linksChanged`
-
-`positionChanged`
-
-`povChanged`
+For more information, please refer to [Street View Developer docs](https://developers.google.com/maps/documentation/javascript/streetview) documentation.
