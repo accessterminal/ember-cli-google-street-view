@@ -81,10 +81,3 @@ _Events_
 `positionChanged`
 
 `povChanged`
-
-
-Add reference to the map control in the index.html
-
-```
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=[API-KEY]"></script>
-```
