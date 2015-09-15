@@ -23,6 +23,10 @@ module.exports = function(environment) {
       }
     },
 
+    streetView: {
+      apiKey: 'AIzaSyAnY39WJpdVPX7EOASb2Sz0MbJmbZHRDX0'
+    },
+
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
