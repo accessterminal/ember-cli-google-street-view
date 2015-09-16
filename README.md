@@ -34,6 +34,23 @@ var ENV = {
 };
 ```
 
+### Content Security Policy
+
+Street View uses many resources from Google's servers, so the URLs to them has to be white listed.   You can set this by adding to the Content Security Policy defined in `config/environment.js` like so:
+
+```js
+ENV.contentSecurityPolicy = {
+  'default-src': "'none'",
+  'script-src': "'self' 'unsafe-eval' *.googleapis.com",
+  'font-src': "'self' fonts.gstatic.com",
+  'img-src': "'self' *.googleapis.com maps.gstatic.com *.gstatic.com",
+  'style-src': "'self' 'unsafe-inline' *.googleapis.com"
+},
+```
+
+You can find out more information on the CSP addon page [here](https://github.com/rwjblue/ember-cli-content-security-policy#ember-cli-content-security-policy).
+
+
 ## Usage
 
 Use the `street-view` component in your templates:
