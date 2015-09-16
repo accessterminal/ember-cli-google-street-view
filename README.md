@@ -36,7 +36,7 @@ var ENV = {
 
 ### Content Security Policy
 
-Street View uses many resources from Google's servers, so the URLs to them has to be white listed.   You can set this by adding to the Content Security Policy defined in `config/environment.js` like so:
+Street View uses many resources from Google's servers, so the URLs to them have to be white listed.   You can set this by adding to the Content Security Policy defined in `config/environment.js` like so:
 
 ```js
 ENV.contentSecurityPolicy = {
