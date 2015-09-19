@@ -9,11 +9,35 @@ A simple google street view component for ember-cli aplications.
 ember install ember-cli-google-street-view
 ```
 
+Google's javascript library will be automatically referenced inside `<head>`. To use your API key, specify it in your application configuration in `config/environment.js`:
+
+```javascript
+var ENV = {
+  // ...
+  streetView: {
+    apiKey: 'AIzaSyAnY39WJpdVPX7EOASb2Sz0MbJmbZHRDX0'
+  },
+  // ...
+};
+```
+
+If for some reason you want to prevent this addon from adding the script tag (e.g another library already does it), just specify:
+
+```javascript
+var ENV = {
+  // ...
+  streetView: {
+    include: false
+  },
+  // ...
+};
+```
+
 ## Usage
 
 View Component
 
-Example: 
+Example:
 `{{street-view lat=lat lng=lng}}`
 
 **Supports:**
@@ -57,10 +81,3 @@ _Events_
 `positionChanged`
 
 `povChanged`
-
-
-Add reference to the map control in the index.html
-
-```
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=[API-KEY]"></script>
-```
