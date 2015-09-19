@@ -16,7 +16,7 @@ Google's javascript library will be automatically referenced inside `<head>`. To
 var ENV = {
   // ...
   streetView: {
-    apiKey: 'AIzaSyAnY39WJpdVPX7EOASb2Sz0MbJmbZHRDX0'
+    apiKey: 'API-KEY-HERE'
   },
   // ...
 };
