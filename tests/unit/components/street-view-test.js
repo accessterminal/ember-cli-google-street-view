@@ -34,16 +34,40 @@ test('that lat and lng are assigned properly', function ( assert ) {
   let lat = latRandomizer();
   let lng = lngRandomizer();
 
-  let component = this.subject();
-  component.set('lat', lat);
-  component.set('lng', lng);
+  let component = this.subject({
+    lat: lat,
+    lng: lng
+  });
   this.render();
 
-  Ember.run( function() {
-    component.createStreetView();
-    assert.equal(component.lat.toFixed(3), component.map.position.G.toFixed(3));
-    assert.equal(component.lng.toFixed(3), component.map.position.K.toFixed(3));
-  } );
+  assert.equal(component.lat.toFixed(3), component.panorama.position.G.toFixed(3));
+  assert.equal(component.lng.toFixed(3), component.panorama.position.K.toFixed(3));
+
+});
+
+test('lat and lng are updated properly', function ( assert ) {
+  let lat = latRandomizer();
+  let lng = lngRandomizer();
+
+  let component = this.subject({
+    lat: lat,
+    lng: lng
+  });
+  this.render();
+
+  assert.equal(lat.toFixed(3), component.panorama.position.G.toFixed(3));
+  assert.equal(lng.toFixed(3), component.panorama.position.K.toFixed(3));
+
+  let newLat = latRandomizer();
+  let newLng = lngRandomizer();
+
+  component.setProperties({
+    lat: newLat,
+    lng: newLng
+  });
+
+  assert.equal(newLat.toFixed(3), component.panorama.position.G.toFixed(3));
+  assert.equal(newLng.toFixed(3), component.panorama.position.K.toFixed(3));
 
 });
 
@@ -91,7 +115,7 @@ test('that options are assigned properly to the map', function( assert ) {
   this.render();
 
   Ember.run(function() {
-    let map = component.map;
+    let map = component.panorama;
 
     //position
     assert.equal(map.position.G.toFixed(3), component.lat.toFixed(3));
@@ -119,4 +143,34 @@ test('that options are assigned properly to the map', function( assert ) {
     // linksControl
     assert.equal(map.linksControl, component.linksControl);
   });
+});
+
+
+test('sends positionChanged action with position changes', function(assert) {
+  assert.expect(2);
+
+  var lat = latRandomizer();
+  var lng = lngRandomizer();
+
+  var newLat = latRandomizer();
+  var newLng = lngRandomizer();
+
+  var targetObject = {
+    positionChangedAction(latLng) {
+      // This assertion will be called when the action is triggered
+      assert.equal(latLng.lat.toFixed(3), newLat.toFixed(3));
+      assert.equal(latLng.lng.toFixed(3), newLng.toFixed(3));
+    }
+  };
+
+  var component = this.subject({
+    lat: lat,
+    lng: lng,
+    targetObject: targetObject,
+    positionChanged: 'positionChangedAction'
+  });
+
+  this.render();
+
+  component.panorama.setPosition({lat: newLat, lng: newLng});
 });
