@@ -16,6 +16,7 @@ function lngRandomizer() {
 moduleForComponent('street-view', {
   // specify the other units that are required for this test
   // needs: ['component:foo', 'helper:bar']
+  unit: true
 });
 
 test('it renders', function(assert) {
@@ -173,4 +174,25 @@ test('sends positionChanged action with position changes', function(assert) {
   this.render();
 
   component.panorama.setPosition({lat: newLat, lng: newLng});
+});
+
+test('can use existing map instance', function(assert) {
+  assert.expect(2);
+
+  Ember.$('body').append('<div id="map-test-container"></div>');
+
+  let fenway = {lat: 42.345573, lng: -71.098326};
+  let map = new google.maps.Map(document.getElementById('map-test-container'), {
+    center: fenway,
+    zoom: 14
+  });
+
+  var component = this.subject({
+    map: map
+  });
+
+  this.render();
+
+  assert.equal(map.getStreetView(), component.get('panorama'));
+  assert.deepEqual(map.getCenter(), component.get('panorama').getPosition());
 });
