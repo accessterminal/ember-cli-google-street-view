@@ -4,6 +4,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['street-view-container'],
 
+  map: null,
   panorama: null,
   lat: null,
   lng: null,
@@ -108,5 +109,11 @@ export default Ember.Component.extend({
     panorama.addListener('pov_changed', Ember.run.bind(this, '_povChanged'));
 
     this.set('panorama', panorama);
+
+    let map = this.get('map');
+    if (map) {
+      map.setStreetView(panorama);
+      panorama.setPosition(map.getCenter());
+    }
   }
 });

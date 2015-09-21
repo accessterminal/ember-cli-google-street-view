@@ -16,6 +16,7 @@ function lngRandomizer() {
 moduleForComponent('street-view', {
   // specify the other units that are required for this test
   // needs: ['component:foo', 'helper:bar']
+  unit: true
 });
 
 test('it renders', function(assert) {
@@ -40,8 +41,8 @@ test('that lat and lng are assigned properly', function ( assert ) {
   });
   this.render();
 
-  assert.equal(component.lat.toFixed(3), component.panorama.position.G.toFixed(3));
-  assert.equal(component.lng.toFixed(3), component.panorama.position.K.toFixed(3));
+  assert.equal(component.lat.toFixed(3), component.panorama.getPosition().lat().toFixed(3));
+  assert.equal(component.lng.toFixed(3), component.panorama.getPosition().lng().toFixed(3));
 
 });
 
@@ -55,8 +56,8 @@ test('lat and lng are updated properly', function ( assert ) {
   });
   this.render();
 
-  assert.equal(lat.toFixed(3), component.panorama.position.G.toFixed(3));
-  assert.equal(lng.toFixed(3), component.panorama.position.K.toFixed(3));
+  assert.equal(lat.toFixed(3), component.panorama.getPosition().lat().toFixed(3));
+  assert.equal(lng.toFixed(3), component.panorama.getPosition().lng().toFixed(3));
 
   let newLat = latRandomizer();
   let newLng = lngRandomizer();
@@ -66,8 +67,8 @@ test('lat and lng are updated properly', function ( assert ) {
     lng: newLng
   });
 
-  assert.equal(newLat.toFixed(3), component.panorama.position.G.toFixed(3));
-  assert.equal(newLng.toFixed(3), component.panorama.position.K.toFixed(3));
+  assert.equal(newLat.toFixed(3), component.panorama.getPosition().lat().toFixed(3));
+  assert.equal(newLng.toFixed(3), component.panorama.getPosition().lng().toFixed(3));
 
 });
 
@@ -118,8 +119,8 @@ test('that options are assigned properly to the map', function( assert ) {
     let map = component.panorama;
 
     //position
-    assert.equal(map.position.G.toFixed(3), component.lat.toFixed(3));
-    assert.equal(map.position.K.toFixed(3), component.lng.toFixed(3));
+    assert.equal(component.panorama.getPosition().lat().toFixed(3), component.lat.toFixed(3));
+    assert.equal(component.panorama.getPosition().lng().toFixed(3), component.lng.toFixed(3));
 
     //pov
     assert.equal(map.pov.heading, component.pov.heading);
@@ -173,4 +174,25 @@ test('sends positionChanged action with position changes', function(assert) {
   this.render();
 
   component.panorama.setPosition({lat: newLat, lng: newLng});
+});
+
+test('can use existing map instance', function(assert) {
+  assert.expect(2);
+
+  Ember.$('body').append('<div id="map-test-container"></div>');
+
+  let fenway = {lat: 42.345573, lng: -71.098326};
+  let map = new google.maps.Map(document.getElementById('map-test-container'), {
+    center: fenway,
+    zoom: 14
+  });
+
+  var component = this.subject({
+    map: map
+  });
+
+  this.render();
+
+  assert.equal(map.getStreetView(), component.get('panorama'));
+  assert.deepEqual(map.getCenter(), component.get('panorama').getPosition());
 });
