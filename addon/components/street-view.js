@@ -4,6 +4,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['street-view-container'],
 
+  map: null,
   panorama: null,
   lat: null,
   lng: null,
