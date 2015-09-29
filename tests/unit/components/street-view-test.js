@@ -40,8 +40,8 @@ test('that lat and lng are assigned properly', function ( assert ) {
   });
   this.render();
 
-  assert.equal(component.lat.toFixed(3), component.panorama.position.G.toFixed(3));
-  assert.equal(component.lng.toFixed(3), component.panorama.position.K.toFixed(3));
+  assert.equal(component.lat.toFixed(3), component.panorama.position.H.toFixed(3));
+  assert.equal(component.lng.toFixed(3), component.panorama.position.L.toFixed(3));
 
 });
 
@@ -55,8 +55,8 @@ test('lat and lng are updated properly', function ( assert ) {
   });
   this.render();
 
-  assert.equal(lat.toFixed(3), component.panorama.position.G.toFixed(3));
-  assert.equal(lng.toFixed(3), component.panorama.position.K.toFixed(3));
+  assert.equal(lat.toFixed(3), component.panorama.position.H.toFixed(3));
+  assert.equal(lng.toFixed(3), component.panorama.position.L.toFixed(3));
 
   let newLat = latRandomizer();
   let newLng = lngRandomizer();
@@ -66,8 +66,8 @@ test('lat and lng are updated properly', function ( assert ) {
     lng: newLng
   });
 
-  assert.equal(newLat.toFixed(3), component.panorama.position.G.toFixed(3));
-  assert.equal(newLng.toFixed(3), component.panorama.position.K.toFixed(3));
+  assert.equal(newLat.toFixed(3), component.panorama.position.H.toFixed(3));
+  assert.equal(newLng.toFixed(3), component.panorama.position.L.toFixed(3));
 
 });
 
@@ -118,8 +118,8 @@ test('that options are assigned properly to the map', function( assert ) {
     let map = component.panorama;
 
     //position
-    assert.equal(map.position.G.toFixed(3), component.lat.toFixed(3));
-    assert.equal(map.position.K.toFixed(3), component.lng.toFixed(3));
+    assert.equal(map.position.H.toFixed(3), component.lat.toFixed(3));
+    assert.equal(map.position.L.toFixed(3), component.lng.toFixed(3));
 
     //pov
     assert.equal(map.pov.heading, component.pov.heading);
