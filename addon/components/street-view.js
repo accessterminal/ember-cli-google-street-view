@@ -1,7 +1,14 @@
 /* global google */
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const {
+  K,
+  on,
+  observer,
+  Component
+} = Ember;
+
+export default Component.extend({
   classNames: ['street-view-container'],
 
   map: null,
@@ -23,28 +30,28 @@ export default Ember.Component.extend({
   linksControl: null,
 
   // events
-  panoDidChange: Ember.K,
+  panoDidChange: K,
   _panoChanged() {
     this.panoDidChange();
     let panorama = this.get('panorama');
     this.sendAction('panoChanged', panorama);
   },
 
-  linksDidChange: Ember.K,
+  linksDidChange: K,
   _linksChanged() {
     this.linksDidChange();
     let panorama = this.get('panorama');
     this.sendAction('linksChanged', panorama);
   },
 
-  povDidChange: Ember.K,
+  povDidChange: K,
   _povChanged() {
     this.povDidChange();
     let panorama = this.get('panorama');
     this.sendAction('povChanged', panorama);
   },
 
-  positionDidChange: Ember.K,
+  positionDidChange: K,
   _positionChanged() {
     this.positionDidChange();
 
@@ -57,13 +64,13 @@ export default Ember.Component.extend({
     }, panorama);
   },
 
-  updatePanoramaPosition: Ember.observer('lat', 'lng', function() {
+  updatePanoramaPosition: on('init', observer('lat', 'lng', function() {
     let lat = this.get('lat');
     let lng = this.get('lng');
     let panorama = this.get('panorama');
 
-    if (panorama) { panorama.setPosition({lat, lng}); }
-  }),
+    if (panorama && lat && lng) { panorama.setPosition({lat, lng}); }
+  })),
 
   didInsertElement() {
     this.createStreetView();
