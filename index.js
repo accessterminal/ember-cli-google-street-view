@@ -7,10 +7,12 @@ module.exports = {
   contentFor: function(type, config) {
     if (type === 'head') {
       var config = config.streetView || {};
+
       if (config.include !== false) {
-        var apiKey = config.apiKey;
-        var keyParam = apiKey ? '?key=' + apiKey : '';
-        return '<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js' + keyParam + '"></script>';
+        var value = config.clientId || config.apiKey;
+        var type = config.clientId ? 'client' : 'key';
+
+        return '<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?' + type + '=' + value + '"></script>';
       }
     }
   }
