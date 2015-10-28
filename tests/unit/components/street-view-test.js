@@ -23,7 +23,7 @@ test('it renders', function(assert) {
   assert.expect(2);
 
   // creates the component instance
-  var component = this.subject();
+  let component = this.subject();
   assert.equal(component._state, 'preRender');
 
   // renders the component to the page
@@ -157,37 +157,7 @@ test('that options are assigned properly to the map', function( assert ) {
 });
 
 
-test('sends positionChanged action with position changes', function(assert) {
-  assert.expect(2);
-
-  var lat = latRandomizer();
-  var lng = lngRandomizer();
-
-  var newLat = latRandomizer();
-  var newLng = lngRandomizer();
-
-  var targetObject = {
-    positionChangedAction(latLng) {
-      // This assertion will be called when the action is triggered
-      assert.equal(latLng.lat.toFixed(3), newLat.toFixed(3));
-      assert.equal(latLng.lng.toFixed(3), newLng.toFixed(3));
-    }
-  };
-
-  var component = this.subject({
-    lat: lat,
-    lng: lng,
-    targetObject: targetObject,
-    positionChanged: 'positionChangedAction'
-  });
-
-  this.render();
-
-  component.panorama.setPosition({lat: newLat, lng: newLng});
-});
-
 test('can use existing map instance', function(assert) {
-  assert.expect(2);
 
   Ember.$('body').append('<div id="map-test-container"></div>');
 
@@ -197,7 +167,7 @@ test('can use existing map instance', function(assert) {
     zoom: 14
   });
 
-  var component = this.subject({
+  let component = this.subject({
     map: map
   });
 
