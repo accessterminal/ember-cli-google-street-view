@@ -1,5 +1,6 @@
 # Ember-cli-google-street-view
 [![Build Status](https://travis-ci.org/cometaworks/ember-cli-google-street-view.svg?branch=master)](https://travis-ci.org/cometaworks/ember-cli-google-street-view)
+[![Ember Observer Score](http://emberobserver.com/badges/ember-cli-google-street-view.svg)](http://emberobserver.com/addons/ember-cli-google-street-view)
 
 A simple google street view component for ember-cli aplications.
 [Demo](http://cometaworks.github.io/ember-cli-google-street-view)
