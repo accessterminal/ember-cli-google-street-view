@@ -96,3 +96,7 @@ The component supports the following properties:
 You can also pass in a `map` property with an existing Google maps instance. This component will create a Street View panorama bound to that existing map instance, with the same position.
 
 For more information, please refer to [Street View Developer docs](https://developers.google.com/maps/documentation/javascript/streetview) documentation.
+
+### Contributions
+
+Make all Pull Requests to the `dev` branch.

@@ -64,7 +64,7 @@ export default Component.extend({
     }, panorama);
   },
 
-  updatePanoramaPosition: on('init', observer('lat', 'lng', function() {
+  updatePanoramaPosition: on('init', observer('lat', 'lng', 'panorama', function() {
     let lat = this.get('lat');
     let lng = this.get('lng');
     let panorama = this.get('panorama');
