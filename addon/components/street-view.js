@@ -69,7 +69,7 @@ export default Component.extend({
     let lng = this.get('lng');
     let panorama = this.get('panorama');
 
-    if (panorama && lat && lng) { panorama.setPosition({lat, lng}); }
+    if (panorama && lat && lng) { panorama.setPosition({ lat, lng }); }
   })),
 
   didInsertElement() {
@@ -105,8 +105,8 @@ export default Component.extend({
        position: position
      };
 
-     for(let i=0; i < optionsProperties.length; i++) {
-       if( optionsProperties[i] !== null ) {
+     for (let i = 0; i < optionsProperties.length; i++) {
+       if (optionsProperties[i] !== null) {
          options[optionsKeys[i]] = optionsProperties[i];
        }
      }
@@ -118,8 +118,12 @@ export default Component.extend({
     let options = this.createOptionsObject();
     let width = this.width;
     let height = this.height;
-    this.$().css({width: width, height: height});
-    let panorama = new google.maps.StreetViewPanorama(this.$().get(0), options);
+    let $this = this.$();
+    
+    $this.css({ width, height });
+    
+    let panorama = new google.maps.StreetViewPanorama($this.get(0), options);
+    
     panorama.addListener('pano_changed', Ember.run.bind(this, '_panoChanged'));
     panorama.addListener('links_changed', Ember.run.bind(this, '_linksChanged'));
     panorama.addListener('position_changed', Ember.run.bind(this, '_positionChanged'));
@@ -128,6 +132,7 @@ export default Component.extend({
     this.set('panorama', panorama);
 
     let map = this.get('map');
+    
     if (map) {
       map.setStreetView(panorama);
       panorama.setPosition(map.getCenter());
