@@ -41,11 +41,8 @@ test('that lat and lng are assigned properly', function ( assert ) {
   });
   this.render();
 
-
-  // assert.equal(component.lat.toFixed(3), component.panorama.position.H.toFixed(3));
-  // assert.equal(component.lng.toFixed(3), component.panorama.position.L.toFixed(3));
-  assert.equal(component.lat.toFixed(3), component.panorama.getPosition().lat().toFixed(3));
-  assert.equal(component.lng.toFixed(3), component.panorama.getPosition().lng().toFixed(3));
+  assert.equal(component.lat.toFixed(4), component.panorama.getPosition().lat().toFixed(4));
+  assert.equal(component.lng.toFixed(4), component.panorama.getPosition().lng().toFixed(4));
 
 });
 
@@ -59,10 +56,8 @@ test('lat and lng are updated properly', function ( assert ) {
   });
   this.render();
 
-  // assert.equal(lat.toFixed(3), component.panorama.position.H.toFixed(3));
-  // assert.equal(lng.toFixed(3), component.panorama.position.L.toFixed(3));
-  assert.equal(lat.toFixed(3), component.panorama.getPosition().lat().toFixed(3));
-  assert.equal(lng.toFixed(3), component.panorama.getPosition().lng().toFixed(3));
+  assert.equal(lat.toFixed(4), component.panorama.getPosition().lat().toFixed(4));
+  assert.equal(lng.toFixed(4), component.panorama.getPosition().lng().toFixed(4));
 
   let newLat = latRandomizer();
   let newLng = lngRandomizer();
@@ -72,12 +67,24 @@ test('lat and lng are updated properly', function ( assert ) {
     lng: newLng
   });
 
+  assert.equal(newLat.toFixed(4), component.panorama.getPosition().lat().toFixed(4));
+  assert.equal(newLng.toFixed(4), component.panorama.getPosition().lng().toFixed(4));
 
-  // assert.equal(newLat.toFixed(3), component.panorama.position.H.toFixed(3));
-  // assert.equal(newLng.toFixed(3), component.panorama.position.L.toFixed(3));
-  assert.equal(newLat.toFixed(3), component.panorama.getPosition().lat().toFixed(3));
-  assert.equal(newLng.toFixed(3), component.panorama.getPosition().lng().toFixed(3));
+});
 
+test('that component is accepting google maps latlng class direct assignment', function(assert) {
+  let component = this.subject();
+  let lat = latRandomizer();
+  let lng = lngRandomizer();
+  let position = new google.maps.LatLng(lat, lng);
+
+  component.set('latLng', position);
+  this.render();
+  assert.equal(position, component.latLng);
+  assert.equal(component.latLng.lat(), component.panorama.getPosition().lat());
+  assert.equal(component.latLng.lng(), component.panorama.getPosition().lng());
+  assert.equal(component.latLng.lat(), component.lat);
+  assert.equal(component.latLng.lng(), component.lng);
 });
 
 test('that options are assigned properly to the map', function( assert ) {

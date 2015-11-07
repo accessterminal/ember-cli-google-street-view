@@ -64,6 +64,12 @@ Use the `street-view` component in your templates:
 {{street-view lat=lat lng=lng}}
 ```
 
+If you have the coords already in the google maps api form: `google.maps.LatLng(lat, lng)` you can also pass it directly to the component like so:
+
+```hbs
+{{street-view latLng=latLng}}
+```
+
 Note that you may need to assign a class and style the container element according to your needs. By default the component adds the class `street-view-container`.
 
 ## Actions
@@ -83,6 +89,7 @@ The component supports the following properties:
 
 - `lat`
 - `lng`
+- `latLng` = `google.maps.LatLng` class result.
 - `zoom`
 - `pov`
 - `panControl`
