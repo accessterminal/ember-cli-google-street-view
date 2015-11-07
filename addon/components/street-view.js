@@ -15,6 +15,7 @@ export default Component.extend({
   panorama: null,
   lat: null,
   lng: null,
+  latLng: null,
   zoom: 0,
   pov: null,
   height: null,
@@ -53,18 +54,29 @@ export default Component.extend({
 
   positionDidChange: K,
   _positionChanged() {
-    this.positionDidChange();
+    if (this.panorama) {
+      this.positionDidChange();
+      let position = this.panorama.getPosition();
+      // let position = panorama.getPosition();
 
-    let panorama = this.get('panorama');
-    let position = panorama.getPosition();
-
-    this.sendAction('positionChanged', {
-      lat: position.lat(),
-      lng: position.lng()
-    }, panorama);
+      this.sendAction('positionChanged', {
+        lat: position.lat(),
+        lng: position.lng()
+      }, this.panorama);
+    }
   },
 
-  updatePanoramaPosition: on('init', observer('lat', 'lng', 'panorama', function() {
+  setLatLng: function() {
+    let lat = this.latLng.lat();
+    let lng = this.latLng.lng();
+    this.set('lat', lat);
+    this.set('lng', lng);
+  },
+
+  updatePanoramaPosition: on('init', observer('lat', 'lng', 'latLng', 'panorama', function() {
+    if (!(this.lat && this.lng) && this.latLng) {
+      this.setLatLng();
+    }
     let lat = this.get('lat');
     let lng = this.get('lng');
     let panorama = this.get('panorama');
@@ -77,39 +89,42 @@ export default Component.extend({
   },
 
   createOptionsObject() {
-     let position = new google.maps.LatLng(this.lat, this.lng);
-     let optionsKeys = [
-       "pov",
-       "zoom",
-       "panControl",
-       "panControlOptions",
-       "zoomControl",
-       "zoomControlOptions",
-       "addressControl",
-       "addressControlOptions",
-       "linksControl"
-     ];
-     let optionsProperties = [
-       this.pov,
-       this.zoom,
-       this.panControl,
-       this.panControlOptions,
-       this.zoomControl,
-       this.zoomControlOptions,
-       this.addressControl,
-       this.addressControlOptions,
-       this.linksControl
-     ];
+    if (!(this.lat && this.lng) && this.latLng) {
+      this.setLatLng();
+    }
+    let position = new google.maps.LatLng(this.lat, this.lng);
+    let optionsKeys = [
+     "pov",
+     "zoom",
+     "panControl",
+     "panControlOptions",
+     "zoomControl",
+     "zoomControlOptions",
+     "addressControl",
+     "addressControlOptions",
+     "linksControl"
+    ];
+    let optionsProperties = [
+     this.pov,
+     this.zoom,
+     this.panControl,
+     this.panControlOptions,
+     this.zoomControl,
+     this.zoomControlOptions,
+     this.addressControl,
+     this.addressControlOptions,
+     this.linksControl
+    ];
 
-     let options = {
-       position: position
-     };
+    let options = {
+     position: position
+    };
 
-     for (let i = 0; i < optionsProperties.length; i++) {
-       if (optionsProperties[i] !== null) {
-         options[optionsKeys[i]] = optionsProperties[i];
-       }
+    for (let i = 0; i < optionsProperties.length; i++) {
+     if (optionsProperties[i] !== null) {
+       options[optionsKeys[i]] = optionsProperties[i];
      }
+    }
 
     return options;
   },
@@ -119,11 +134,11 @@ export default Component.extend({
     let width = this.width;
     let height = this.height;
     let $this = this.$();
-    
+
     $this.css({ width, height });
-    
+
     let panorama = new google.maps.StreetViewPanorama($this.get(0), options);
-    
+
     panorama.addListener('pano_changed', Ember.run.bind(this, '_panoChanged'));
     panorama.addListener('links_changed', Ember.run.bind(this, '_linksChanged'));
     panorama.addListener('position_changed', Ember.run.bind(this, '_positionChanged'));
@@ -132,7 +147,7 @@ export default Component.extend({
     this.set('panorama', panorama);
 
     let map = this.get('map');
-    
+
     if (map) {
       map.setStreetView(panorama);
       panorama.setPosition(map.getCenter());
