@@ -1,3 +1,4 @@
+/*global google*/
 import Ember from 'ember';
 import layout from '../templates/components/street-component';
 
@@ -12,6 +13,7 @@ export default Ember.Component.extend({
   	heading: 165,
   	pitch: 0
   },
+  latLng: new google.maps.LatLng(51.492148, -0.1930833),
 
   panoChanged: function(){
   	Ember.Logger.debug('pano_changed happened');
