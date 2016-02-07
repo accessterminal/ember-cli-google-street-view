@@ -74,7 +74,7 @@ export default Component.extend({
   },
 
   updatePanoramaPosition: on('init', observer('lat', 'lng', 'latLng', 'panorama', function() {
-    if (!(this.lat && this.lng) && this.latLng) {
+    if (this.latLng) {
       this.setLatLng();
     }
     let lat = this.get('lat');
