@@ -105,7 +105,7 @@ export default Component.extend({
      "zoomControlOptions",
      "addressControl",
      "addressControlOptions",
-     "linksControl"
+     "linksControl",
      "fullscreenControl",
      "fullscreenControlOptions",
      "imageDateControl"
