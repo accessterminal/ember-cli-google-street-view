@@ -99,6 +99,9 @@ The component supports the following properties:
 - `addressControl`
 - `addressControlOptions`
 - `linksControl`
+- `fullscreenControl`
+- `fullscreenControlOptions`
+- `imageDateControl`
 
 You can also pass in a `map` property with an existing Google maps instance. This component will create a Street View panorama bound to that existing map instance, with the same position.
 

@@ -29,6 +29,9 @@ export default Component.extend({
   addressControl: null,
   addressControlOptions: null,
   linksControl: null,
+  fullscreenControl: null,
+  fullscreenControlOptions: null,
+  imageDateControl: null,
 
   // events
   panoDidChange: K,
@@ -102,7 +105,10 @@ export default Component.extend({
      "zoomControlOptions",
      "addressControl",
      "addressControlOptions",
-     "linksControl"
+     "linksControl",
+     "fullscreenControl",
+     "fullscreenControlOptions",
+     "imageDateControl"
     ];
     let optionsProperties = [
      this.pov,
@@ -113,7 +119,10 @@ export default Component.extend({
      this.zoomControlOptions,
      this.addressControl,
      this.addressControlOptions,
-     this.linksControl
+     this.linksControl,
+     this.fullscreenControl,
+     this.fullscreenControlOptions,
+     this.imageDateControl
     ];
 
     let options = {
