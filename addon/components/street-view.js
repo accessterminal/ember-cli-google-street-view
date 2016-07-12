@@ -76,15 +76,24 @@ export default Component.extend({
     this.set('lng', lng);
   },
 
-  updatePanoramaPosition: on('init', observer('lat', 'lng', 'latLng', 'panorama', function() {
+  updatePanoramaPosition: on('init', observer('lat', 'lng', 'latLng', 'panorama', 'pov', function() {
     if (this.latLng) {
       this.setLatLng();
     }
     let lat = this.get('lat');
     let lng = this.get('lng');
+    let pov = this.get('pov');
     let panorama = this.get('panorama');
 
-    if (panorama && lat && lng) { panorama.setPosition({ lat, lng }); }
+    if (panorama) {
+      if (lat && lng) {
+        panorama.setPosition({ lat, lng });
+      }
+
+      if (pov) {
+        panorama.setPov(pov);
+      }
+    }
   })),
 
   didInsertElement() {
