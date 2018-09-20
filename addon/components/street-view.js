@@ -2,7 +2,6 @@
 import Ember from 'ember';
 
 const {
-  K,
   on,
   observer,
   Component
@@ -34,28 +33,28 @@ export default Component.extend({
   imageDateControl: null,
 
   // events
-  panoDidChange: K,
+  panoDidChange() {},
   _panoChanged() {
     this.panoDidChange();
     let panorama = this.get('panorama');
     this.sendAction('panoChanged', panorama);
   },
 
-  linksDidChange: K,
+  linksDidChange() {},
   _linksChanged() {
     this.linksDidChange();
     let panorama = this.get('panorama');
     this.sendAction('linksChanged', panorama);
   },
 
-  povDidChange: K,
+  povDidChange() {},
   _povChanged() {
     this.povDidChange();
     let panorama = this.get('panorama');
     this.sendAction('povChanged', panorama);
   },
 
-  positionDidChange: K,
+  positionDidChange() {},
   _positionChanged() {
     if (this.panorama) {
       this.positionDidChange();
